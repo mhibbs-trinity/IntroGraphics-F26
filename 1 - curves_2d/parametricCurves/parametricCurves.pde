@@ -18,11 +18,19 @@ void draw() {
   strokeWeight(1.0/20);
   float m = float(mouseX)/width * 50;
   float q = float(mouseY)/height * 50;
+
+  /*
+  fx/fy - Teardrop curve 
+  lx/ly - Lissajous curve
+  hx/hy - Hypotrochoid
+  bx/by - Butterfly curve
+  */
+
   beginShape();
-  for(float t=0; t<map(mouseX, 0,width, 1,50)*PI; t+=stepSize) {
-  //for(float t=0; t<6*PI; t+=stepSize) {
-    vertex(fx(t,m),fy(t,m));
-    //vertex(lx(t,5.0*mouseX/width),ly(t,5.0*mouseY/height));
+  //for(float t=0; t<map(mouseX, 0,width, 1,50)*PI; t+=stepSize) {
+  for(float t=0; t<6*PI; t+=stepSize) {
+    //vertex(fx(t,m),fy(t,m));
+    vertex(lx(t,5.0*mouseX/width),ly(t,5.0*mouseY/height));
     //vertex(bx(t),by(t));
     //vertex(hx(t,5,q,m), hy(t,5,q,m));
   }
