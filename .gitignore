@@ -1,0 +1,54 @@
+# --- Gradle ---
+.gradle/
+build/
+# Local Gradle overrides (JDK paths, credentials, etc.)
+local.properties
+.kotlin/
+
+# --- Java ---
+*.class
+*.log
+*.jar
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
+# Keep the Gradle wrapper jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# --- VS Code ---
+# Ignore per-user state, but keep shared workspace config
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Java language server (Red Hat Java extension / Eclipse)
+bin/
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.metadata/
+
+# --- Other IDEs ---
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.nb-gradle/
+nbproject/private/
+
+# --- OS / sync junk ---
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+.dropbox
+.dropbox.attr
+*.swp
+*~
