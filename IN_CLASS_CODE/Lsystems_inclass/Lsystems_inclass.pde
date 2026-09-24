@@ -3,14 +3,13 @@ String[] hilbert = new String [5];
 String[] dragon = new String [11];
 String[] tree = new String [6];
 String[] bush = new String [4];
+String[] gosper = new String[4];
 
 /* Mode variable to choose which LSystem to use */
 public enum Mode { KOCH, HILBERT, DRAGON, TREE, BUSH, GOSPER }
 Mode mode = Mode.KOCH;
 
 HashMap<Character,String> rules = new HashMap<Character,String>();
-
-String gosper = "A";
 
 void setup() {
   rules.put('A',"A-B--B+A++AA+B-");
@@ -47,6 +46,10 @@ void setup() {
   bush[1] = "FF-[-F+F+F]+[+F-F-F]";
   bush[2] = "FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]";
   bush[3] = "FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]-[-FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]+FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]+FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]]+[+FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]-FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]-FF-[-F+F+F]+[+F-F-F]FF-[-F+F+F]+[+F-F-F]-[-FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]+FF-[-F+F+F]+[+F-F-F]]+[+FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]-FF-[-F+F+F]+[+F-F-F]]]";
+  gosper[0] = "A-B--B+A++AA+B-";
+  gosper[1] = "A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-";
+  gosper[2] = "A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-";
+  gosper[3] = "A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B--+A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B--+A-BB--B-A++A+B+A-B--B+A++AA+B-++A-B--B+A++AA+B-A-B--B+A++AA+B-++A-BB--B-A++A+B-++A-B--B+A++AA+B--+A-BB--B-A++A+B+A-BB--B-A++A+B--+A-BB--B-A++A+B-A-B--B+A++AA+B-++A-B--B+A++AA+B-++A-BB--B-A++A+B-";
 }
 
 int level=0;
@@ -56,86 +59,45 @@ void draw() {
   strokeWeight(3);
   
   if(mode == Mode.KOCH) {
-    translate(width/2,height);
-    for(int i=0; i<koch[level].length(); i++) {
-      char c = koch[level].charAt(i);
-      float len = height / pow(3,level);
+    translate(width/2,0);
+    String s = koch[level];
+    float step = height / pow(3,level);
+    for(int i=0; i<s.length(); i++) {
+      char c = s.charAt(i);
       if(c == 'F') {
-        line(0,0, 0,-len);
-        translate(0,-len);
+        line(0,0, 0,step);
+        translate(0,step);
+      } else if(c == '+') {
+        rotate(PI/3);
+      } else if(c == '-') {
+        rotate(-PI/3);
       }
-      if(c == '-') { rotate(-PI/3); }
-      if(c == '+') { rotate(PI/3); }
     }
   }
   
   if(mode == Mode.HILBERT) {
-    translate(width-100, height-100);
-    noFill();
-    float len = (height-200) / (pow(2,level) - 1);
-    float theta = map(mouseX, 0,width, 0,2*PI);
-    //float theta = 3*PI/4;
-    for(int i=0; i<hilbert[level].length(); i++) {
-      char c = hilbert[level].charAt(i);
-      if(c == 'F') {
-        //line(0,0, 0,-len);
-        bezier(0,0, -len/2,-len/2, len/2,-len/2  ,0,-len);
-        translate(0,-len);
-      }
-      if(c == '-') { rotate(-theta); }
-      if(c == '+') { rotate(theta); }
-    }
+    
   }
   
   if(mode == Mode.GOSPER) {
-    translate(width-10,height/2);
-    noFill();
-    float len = height / pow(2.5,level) / 2;
-    for(int i=0; i<gosper.length(); i++) {
-      char c = gosper.charAt(i);
-      if(c == 'A' || c == 'B') {
-        line(0,0, 0,-len);
-        translate(0,-len);
-      }
-      if(c == '-') { rotate(-PI/3); }
-      if(c == '+') { rotate(PI/3); }
-    }
+    
   }
   
   if(mode == Mode.TREE) {
-    translate(width/2, height);
-    float len = 25;
-    float theta = map(mouseX, 0,width, 0,2*PI);
-    for(int i=0; i<tree[level].length(); i++) {
-      char c = tree[level].charAt(i);
-      if(c == '0' || c == '1') {
-        line(0,0, 0,-len);
-        translate(0,-len);
-      }
-      if(c == '-') { rotate(-theta); }
-      if(c == '+') { rotate(theta); }
-      if(c == '[') { pushMatrix(); }
-      if(c == ']') { popMatrix(); }
-    }
+    
   }
   
   if(mode == Mode.BUSH) {
-    translate(width/2, height);
-    float len = 25;
-    float theta = map(mouseX, 0,width, 0,2*PI);
-    for(int i=0; i<bush[level].length(); i++) {
-      char c = bush[level].charAt(i);
-      if(c == 'F' || c == '1') {
-        line(0,0, 0,-len);
-        translate(0,-len);
-      }
-      if(c == '-') { rotate(-theta+random(PI/128)); }
-      if(c == '+') { rotate(theta+random(PI/128)); }
-      if(c == '[') { pushMatrix(); }
-      if(c == ']') { popMatrix(); }
-    }
+    
   }
   
+  if(mode == Mode.DRAGON) {
+    
+  }
+  
+}
+
+void doDragon() {
   
 }
 
@@ -154,23 +116,12 @@ void keyPressed() {
     if(mode == Mode.DRAGON && level > 10) level = 10;
     if(mode == Mode.TREE && level > 5) level = 5;
     if(mode == Mode.BUSH && level > 3) level = 3;
-    if(mode == Mode.GOSPER) {
-      String newGosper = "";
-      for(int i=0; i<gosper.length(); i++) {
-        char c = gosper.charAt(i);
-        if(rules.containsKey(c)) {
-          newGosper += rules.get(c);
-        }else {
-          newGosper += c;
-        }
-      }
-      gosper = newGosper;
-    }
+    if(mode == Mode.GOSPER && level > 3) level = 3;
   }
   if(key == 'k' || key == 'K') { mode = Mode.KOCH; level = 0; }
   if(key == 'h' || key == 'H') { mode = Mode.HILBERT; level = 0; }
   if(key == 'd' || key == 'D') { mode = Mode.DRAGON; level = 0; }
   if(key == 't' || key == 'T') { mode = Mode.TREE; level = 0; }
   if(key == 'b' || key == 'B') { mode = Mode.BUSH; level = 0; }
-  if(key == 'g' || key == 'G') { mode = Mode.GOSPER; level = 0; gosper="A";}
+  if(key == 'g' || key == 'G') { mode = Mode.GOSPER; level = 0; }
 }
