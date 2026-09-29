@@ -3,20 +3,23 @@ String[] hilbert = new String [5];
 String[] dragon = new String [11];
 String[] tree = new String [6];
 String[] bush = new String [4];
+float theta = 0;
 
 /* Mode variable to choose which LSystem to use */
-public enum Mode { KOCH, HILBERT, DRAGON, TREE, BUSH, GOSPER }
+public enum Mode {
+  KOCH, HILBERT, DRAGON, TREE, BUSH, GOSPER
+}
 Mode mode = Mode.KOCH;
 
-HashMap<Character,String> rules = new HashMap<Character,String>();
+HashMap<Character, String> rules = new HashMap<Character, String>();
 
 String gosper = "A";
 
 void setup() {
-  rules.put('A',"A-B--B+A++AA+B-");
-  rules.put('B',"+A-BB--B-A++A+B"); 
-  
-  size(800,800);
+  rules.put('A', "A-B--B+A++AA+B-");
+  rules.put('B', "+A-BB--B-A++A+B");
+
+  size(800, 800);
   koch[0] = "F";
   koch[1] = "F-F++F-F";
   koch[2] = "F-F++F-F-F-F++F-F++F-F++F-F-F-F++F-F";
@@ -54,122 +57,223 @@ void draw() {
   background(0);
   stroke(255);
   strokeWeight(3);
-  
-  if(mode == Mode.KOCH) {
-    translate(width/2,height);
-    for(int i=0; i<koch[level].length(); i++) {
+
+  translate(width/2,height/2);
+  rotate(theta);
+  translate(-width/2,-height/2);
+
+  if (mode == Mode.KOCH) {
+    translate(width/2, height);
+    for (int i=0; i<koch[level].length(); i++) {
       char c = koch[level].charAt(i);
-      float len = height / pow(3,level);
-      if(c == 'F') {
-        line(0,0, 0,-len);
-        translate(0,-len);
+      float len = height / pow(3, level);
+      if (c == 'F') {
+        line(0, 0, 0, -len);
+        translate(0, -len);
       }
-      if(c == '-') { rotate(-PI/3); }
-      if(c == '+') { rotate(PI/3); }
+      if (c == '-') {
+        rotate(-PI/3);
+      }
+      if (c == '+') {
+        rotate(PI/3);
+      }
     }
   }
-  
-  if(mode == Mode.HILBERT) {
+
+  if (mode == Mode.HILBERT) {
     translate(width-100, height-100);
     noFill();
-    float len = (height-200) / (pow(2,level) - 1);
-    float theta = map(mouseX, 0,width, 0,2*PI);
-    for(int i=0; i<hilbert[level].length(); i++) {
+    float len = (height-200) / (pow(2, level) - 1);
+    float theta = map(mouseX, 0, width, 0, 2*PI);
+    for (int i=0; i<hilbert[level].length(); i++) {
       char c = hilbert[level].charAt(i);
-      if(c == 'F') {
+      if (c == 'F') {
         //line(0,0, 0,-len);
-        bezier(0,0, -len/2,-len/2, len/2,-len/2  ,0,-len);
-        translate(0,-len);
+        bezier(0, 0, -len/2, -len/2, len/2, -len/2, 0, -len);
+        translate(0, -len);
       }
-      if(c == '-') { rotate(-theta); }
-      if(c == '+') { rotate(theta); }
+      if (c == '-') {
+        rotate(-theta);
+      }
+      if (c == '+') {
+        rotate(theta);
+      }
     }
   }
-  
-  if(mode == Mode.GOSPER) {
-    translate(width-10,height/2);
+
+  if (mode == Mode.GOSPER) {
+    translate(width-10, height/2);
     noFill();
-    float len = height / pow(2.5,level) / 2;
-    for(int i=0; i<gosper.length(); i++) {
+    float len = height / pow(2.5, level) / 2;
+    for (int i=0; i<gosper.length(); i++) {
       char c = gosper.charAt(i);
-      if(c == 'A' || c == 'B') {
-        line(0,0, 0,-len);
-        translate(0,-len);
+      if (c == 'A' || c == 'B') {
+        line(0, 0, 0, -len);
+        translate(0, -len);
       }
-      if(c == '-') { rotate(-PI/3); }
-      if(c == '+') { rotate(PI/3); }
+      if (c == '-') {
+        rotate(-PI/3);
+      }
+      if (c == '+') {
+        rotate(PI/3);
+      }
     }
   }
-  
-  if(mode == Mode.TREE) {
+
+  if (mode == Mode.TREE) {
     translate(width/2, height);
     float len = 25;
-    float theta = map(mouseX, 0,width, 0,2*PI);
-    for(int i=0; i<tree[level].length(); i++) {
+    float theta = map(mouseX, 0, width, 0, 2*PI);
+    for (int i=0; i<tree[level].length(); i++) {
       char c = tree[level].charAt(i);
-      if(c == '0' || c == '1') {
-        line(0,0, 0,-len);
-        translate(0,-len);
+      if (c == '0' || c == '1') {
+        line(0, 0, 0, -len);
+        translate(0, -len);
       }
-      if(c == '-') { rotate(-theta); }
-      if(c == '+') { rotate(theta); }
-      if(c == '[') { pushMatrix(); }
-      if(c == ']') { popMatrix(); }
+      if (c == '-') {
+        rotate(-theta);
+      }
+      if (c == '+') {
+        rotate(theta);
+      }
+      if (c == '[') {
+        pushMatrix();
+      }
+      if (c == ']') {
+        popMatrix();
+      }
     }
   }
-  
-  if(mode == Mode.BUSH) {
+
+  if (mode == Mode.BUSH) {
     translate(width/2, height);
     float len = 25;
-    float theta = map(mouseX, 0,width, 0,2*PI);
-    for(int i=0; i<bush[level].length(); i++) {
+    float theta = map(mouseX, 0, width, 0, 2*PI);
+    for (int i=0; i<bush[level].length(); i++) {
       char c = bush[level].charAt(i);
-      if(c == 'F' || c == '1') {
-        line(0,0, 0,-len);
-        translate(0,-len);
+      if (c == 'F' || c == '1') {
+        line(0, 0, 0, -len);
+        translate(0, -len);
       }
-      if(c == '-') { rotate(-theta+random(PI/128)); }
-      if(c == '+') { rotate(theta+random(PI/128)); }
-      if(c == '[') { pushMatrix(); }
-      if(c == ']') { popMatrix(); }
+      if (c == '-') {
+        rotate(-theta+random(PI/128));
+      }
+      if (c == '+') {
+        rotate(theta+random(PI/128));
+      }
+      if (c == '[') {
+        pushMatrix();
+      }
+      if (c == ']') {
+        popMatrix();
+      }
     }
   }
-  
-  
+
+  if (mode == Mode.DRAGON) {
+    translate(width/2, height/2);
+    stroke(255);//,0,0);
+    pushMatrix();
+    doDragon();
+    popMatrix();
+
+    // stroke(0, 255, 0);
+    // rotate(PI/2);
+    // pushMatrix();
+    // doDragon();
+    // popMatrix();
+
+    // stroke(0, 0, 255);
+    // rotate(PI/2);
+    // pushMatrix();
+    // doDragon();
+    // popMatrix();
+
+    // stroke(255, 255, 0);
+    // rotate(PI/2);
+    // pushMatrix();
+    // doDragon();
+    // popMatrix();
+  }
+}
+
+void doDragon() {
+  for (int i=0; i<dragon[level].length(); i++) {
+    char c = dragon[level].charAt(i);
+    float len = 12;
+    if (c == 'F') {
+      line(0, 0, 0, -len);
+      //bezier(0,0, -len/2,-len/2, len/2,-len/2, 0,-len);
+      translate(0, -len);
+    }
+    if (c == '-') {
+      rotate(-PI/2);
+    }
+    if (c == '+') {
+      rotate(PI/2);
+    }
+  }
 }
 
 
 void keyPressed() {
-  if(key == ' ') { noLoop(); }
-  if(key == 'a') { loop(); }
-  if(keyCode == LEFT || keyCode == DOWN) {
-    level--;
-    if(level < 0) level = 0;
+  if (key == ' ') {
+    noLoop();
   }
-  if(keyCode == RIGHT || keyCode == UP) {
+  if (key == 'a') {
+    loop();
+  }
+  if (keyCode == LEFT || keyCode == DOWN) {
+    level--;
+    if (level < 0) level = 0;
+  }
+  if (keyCode == RIGHT || keyCode == UP) {
     level++;
-    if(mode == Mode.KOCH && level > 3) level = 3;
-    if(mode == Mode.HILBERT && level > 4) level = 4;
-    if(mode == Mode.DRAGON && level > 10) level = 10;
-    if(mode == Mode.TREE && level > 5) level = 5;
-    if(mode == Mode.BUSH && level > 3) level = 3;
-    if(mode == Mode.GOSPER) {
+    if (mode == Mode.KOCH && level > 3) level = 3;
+    if (mode == Mode.HILBERT && level > 4) level = 4;
+    if (mode == Mode.DRAGON && level > 10) level = 10;
+    if (mode == Mode.TREE && level > 5) level = 5;
+    if (mode == Mode.BUSH && level > 3) level = 3;
+    if (mode == Mode.GOSPER) {
       String newGosper = "";
-      for(int i=0; i<gosper.length(); i++) {
+      for (int i=0; i<gosper.length(); i++) {
         char c = gosper.charAt(i);
-        if(rules.containsKey(c)) {
+        if (rules.containsKey(c)) {
           newGosper += rules.get(c);
-        }else {
+        } else {
           newGosper += c;
         }
       }
       gosper = newGosper;
     }
   }
-  if(key == 'k' || key == 'K') { mode = Mode.KOCH; level = 0; }
-  if(key == 'h' || key == 'H') { mode = Mode.HILBERT; level = 0; }
-  if(key == 'd' || key == 'D') { mode = Mode.DRAGON; level = 0; }
-  if(key == 't' || key == 'T') { mode = Mode.TREE; level = 0; }
-  if(key == 'b' || key == 'B') { mode = Mode.BUSH; level = 0; }
-  if(key == 'g' || key == 'G') { mode = Mode.GOSPER; level = 0; gosper="A";}
+  if (key == 'k' || key == 'K') {
+    mode = Mode.KOCH;
+    level = 0;
+  }
+  if (key == 'h' || key == 'H') {
+    mode = Mode.HILBERT;
+    level = 0;
+  }
+  if (key == 'd' || key == 'D') {
+    mode = Mode.DRAGON;
+    level = 0;
+  }
+  if (key == 't' || key == 'T') {
+    mode = Mode.TREE;
+    level = 0;
+  }
+  if (key == 'b' || key == 'B') {
+    mode = Mode.BUSH;
+    level = 0;
+  }
+  if (key == 'g' || key == 'G') {
+    mode = Mode.GOSPER;
+    level = 0;
+    gosper="A";
+  }
+}
+
+void mouseDragged() {
+  theta += map(mouseX - pmouseX, 0,10, 0,PI/16);
 }
