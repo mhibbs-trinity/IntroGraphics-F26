@@ -14,31 +14,60 @@ void settings() {
   img = loadImage("raft.png");
   //img = loadImage("camera.png");
   //img = loadImage("robotBoy_run.jpg");
-  eimg = createImage(img.width, img.height, RGB);
+  eimg = createImage(img.width, img.height, ARGB);
   size(img.width,img.height);
 }
 
 void setup() {
   img.loadPixels();
+  /*
   eimg.loadPixels();
   for(int i=0; i<img.pixels.length; i++) {
     color c = img.pixels[i];
     color newcolor = color(0);
-    /*
+    
     if(red(c) > 128) {
       newcolor = color(255);
-    }*/
+    }
     float avg = (red(c) + green(c) + blue(c)) / 3;
     avg = brightness(c);
     eimg.pixels[i] = color(avg);
   }
   eimg.updatePixels();
+  */
 }
 
 void draw() {
-  if(mousePressed) {
-    image(img, 0,0);
-  } else {
-    image(eimg, 0,0);
-  }
+  background(0);
+  //if(mousePressed) {
+  //image(img, 0,0);
+  //} else {
+  //  image(eimg, 0,0);
+  //}
+  showPicture(img);
 }
+
+void showPicture(PImage img) {
+  img.loadPixels();
+  loadPixels();
+  for(int i=0; i<pixels.length; i++) {
+    int x = i % width;
+    int y = i / width;
+    float d = dist(mouseX,mouseY, x,y);
+    if(d < 300) {
+      color c = img.pixels[i];
+      pixels[i] = color(red(c),green(c),blue(c), map(d, 0,300, 0,255));
+      //pixels[i] = img.pixels[i];
+    }
+  }
+  updatePixels();
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  

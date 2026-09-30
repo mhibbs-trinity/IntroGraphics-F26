@@ -178,23 +178,23 @@ void draw() {
     doDragon();
     popMatrix();
 
-    // stroke(0, 255, 0);
-    // rotate(PI/2);
-    // pushMatrix();
-    // doDragon();
-    // popMatrix();
+     stroke(0, 255, 0);
+     rotate(PI/2);
+     pushMatrix();
+     doDragon();
+     popMatrix();
 
-    // stroke(0, 0, 255);
-    // rotate(PI/2);
-    // pushMatrix();
-    // doDragon();
-    // popMatrix();
+     stroke(0, 0, 255);
+     rotate(PI/2);
+     pushMatrix();
+     doDragon();
+     popMatrix();
 
-    // stroke(255, 255, 0);
-    // rotate(PI/2);
-    // pushMatrix();
-    // doDragon();
-    // popMatrix();
+     stroke(255, 255, 0);
+     rotate(PI/2);
+     pushMatrix();
+     doDragon();
+     popMatrix();
   }
 }
 
