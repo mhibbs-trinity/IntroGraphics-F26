@@ -23,90 +23,60 @@ void settings() {
   //gimg = loadImage("green_dude.jpg");
   
   //img = loadImage("robotBoy_run.jpg");
-  
-  copy = createImage(img.width, img.height, RGB);
-
+  eimg = createImage(img.width, img.height, ARGB);
   size(img.width,img.height);
 }
 
 void setup() {
   img.loadPixels();
-  copy.loadPixels();
+  /*
+  eimg.loadPixels();
   for(int i=0; i<img.pixels.length; i++) {
     color c = img.pixels[i];
     color newcolor = color(0);
-    /*
+    
     if(red(c) > 128) {
       newcolor = color(255);
-    }*/
+    }
     float avg = (red(c) + green(c) + blue(c)) / 3;
     avg = brightness(c);
     copy.pixels[i] = color(avg);
   }
-  copy.updatePixels();
-
-  float amt = 1f/25f;
-  float[][] blur5 = {{amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt}};
-  amt = 1f/49f;
-  float[][] blur7 = {{amt,amt,amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt,amt,amt},
-                     {amt,amt,amt,amt,amt,amt,amt}};
-  float[][] diagBlur={{amt,0,0,0,0},
-                      {0,amt,0,0,0},
-                      {0,0,amt,0,0},
-                      {0,0,0,amt,0},
-                      {0,0,0,0,amt}};
+  eimg.updatePixels();
+  */
 }
 
 void draw() {
-  if(mousePressed) {
-    image(img, 0,0);
-  } else {
-    image(copy, 0,0);
-  }
+  background(0);
+  //if(mousePressed) {
+  //image(img, 0,0);
+  //} else {
+  //  image(eimg, 0,0);
+  //}
+  showPicture(img);
 }
 
-PImage convolve(PImage img, float[][] kernel) {
+void showPicture(PImage img) {
   img.loadPixels();
-  PImage modImg = createImage(img.width, img.height, RGB);
-  modImg.loadPixels();
-  
-  /****/
-  
-  modImg.updatePixels();
-  return modImg;
-}
-
-PImage greenScreen(PImage img, PImage gimg) {
-  PImage copy = createImage(gimg.width,gimg.height,RGB);
-  img.loadPixels();
-  copy.loadPixels();
-  gimg.loadPixels();
-  
-
-  copy.updatePixels();
-  return copy;
-}
-
-void loadRobot() {
-  rboy = loadImage("robotBoy_run.png");
-  frames = new PImage [16];
-  int ctr = 0;
-  for(int y=0; y<rboy.height-100; y = y+275) {
-    for(int x=0; x<rboy.width-100; x = x+275) {
-      if(ctr < 16) {
-        frames[ctr] = rboy.get(x,y, 275,275);
-        ctr++;
-      } 
+  loadPixels();
+  for(int i=0; i<pixels.length; i++) {
+    int x = i % width;
+    int y = i / width;
+    float d = dist(mouseX,mouseY, x,y);
+    if(d < 300) {
+      color c = img.pixels[i];
+      pixels[i] = color(red(c),green(c),blue(c), map(d, 0,300, 0,255));
+      //pixels[i] = img.pixels[i];
     }
   }
-  frameRate(15);
+  updatePixels();
 }
+  
+  
+  
+  
+  
+  
+  
+  
+  
