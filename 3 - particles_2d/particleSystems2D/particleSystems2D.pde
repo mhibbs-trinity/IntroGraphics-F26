@@ -32,11 +32,12 @@ void draw() {
   float dx = map(mouseX,0,width,-0.5,0.5);
   PVector wind = new PVector(dx,0);
 
-  ps.applyForce(wind);
-  ps.run();
-  ps.addParticle();
+  //ps.applyForce(wind);
+  //ps.applyForce(new PVector(0,0.1));
+  //ps.run();
+  //ps.addParticle();
   
-  /*
+  
   if(mode == 1 || mode == 2) {
     fire.applyForce(wind);
     fire.run();
@@ -50,7 +51,7 @@ void draw() {
 
   // Draw an arrow representing the wind force
   drawVector(wind, new PVector(width/2,50,0),500);
-  */
+  
 }
 
 // Renders a vector object 'v' as an arrow and a location 'loc'

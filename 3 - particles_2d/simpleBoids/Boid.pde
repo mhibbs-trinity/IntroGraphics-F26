@@ -54,7 +54,7 @@ class Boid {
     translate(pos.x, pos.y);
     rotate(theta);
     noStroke();
-    fill(40, 80);
+    fill(0, 200);
     beginShape();
     vertex(0, -6);
     vertex(-3, 6);

@@ -1,7 +1,7 @@
 Flock flock;
 
 void setup() {
-  size(800, 600);
+  size(800, 600, P3D);
   flock = new Flock();
   for (int i = 0; i < 120; i++) {
     flock.add(new Boid(random(width), random(height)));
