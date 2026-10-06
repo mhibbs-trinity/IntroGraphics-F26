@@ -23,19 +23,7 @@ class CollisionSystem {
   public CollisionSystem(int num) {
     this(num,5);
   }
-  
-  public void runWithWallIntersections(ArrayList<FixedWall> walls) {
-    for(Particle p : parts) {
-      boolean isect = false;
-      for(FixedWall w : walls) {
-        isect = isect || p.intersect(w);
-      }
-      if(isect) fill(0,255,255);
-      else fill(0);
-      p.run();
-    }
-  }
-  
+    
   public void runWithIntersections() {
     for(Particle p : parts) {
       boolean isect = false;
@@ -49,7 +37,19 @@ class CollisionSystem {
       p.run();
     }
   }
-  
+
+  public void runWithWallIntersections(ArrayList<FixedWall> walls) {
+    for(Particle p : parts) {
+      boolean isect = false;
+      for(FixedWall w : walls) {
+        isect = isect || p.intersect(w);
+      }
+      if(isect) fill(0,255,255);
+      else fill(0);
+      p.run();
+    }
+  }
+
   public void runShowingParticleCollisions() {
     for(Particle p : parts) {
       float timeToIntersect = 100;
@@ -121,7 +121,7 @@ class CollisionSystem {
         if(tti >= 0 && tti < timeToIntersect)
           timeToIntersect = tti;
       }
-      println(timeToIntersect);
+      //println(timeToIntersect);
       fill(map(timeToIntersect,0,100,255,0),0,0);
       if(timeToIntersect < 1) fill(0,0,255);
       p.run();
