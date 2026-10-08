@@ -66,6 +66,8 @@ float[][] emboss  ={{-2,-1, 0},
 
 void updateFilteredCopy() {
   switch(filterMode) {
+    case 'z': case 'Z':
+      copy = simpleBlur(img); break;
     case 'b': case 'B':
       copy = convolve(img, blur5); break;
     case 'n': case 'N':

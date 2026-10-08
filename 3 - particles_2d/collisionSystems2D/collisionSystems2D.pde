@@ -61,7 +61,7 @@ void draw() {
   background(255);
   fill(0);
   
-  for(FixedWall w : walls) { w.display(); }
+  //for(FixedWall w : walls) { w.display(); }
   switch(mode) {
     case NONE:
       cs.run();
