@@ -39,6 +39,7 @@ class Particle {
   // Method to display
   void display() {
     stroke(0,lifespan);
+    noStroke();
     strokeWeight(2);
     fill(127,lifespan);
     ellipse(loc.x,loc.y,12,12);

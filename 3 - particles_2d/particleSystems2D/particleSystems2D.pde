@@ -32,7 +32,7 @@ void draw() {
   float dx = map(mouseX,0,width,-0.5,0.5);
   PVector wind = new PVector(dx,0);
 
-  ps.applyForce(wind);
+  //ps.applyForce(wind);
   ps.run();
   ps.addParticle();
   
