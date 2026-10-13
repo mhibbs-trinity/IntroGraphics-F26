@@ -14,10 +14,10 @@ enum Mode {
   COLLISIONS, // C
   BROWNIAN // --
 };
-Mode mode = Mode.NONE;
-//Mode mode = Mode.BROWNIAN;
-float rad = 12;
-int numParts = 50;
+//Mode mode = Mode.NONE;
+Mode mode = Mode.BROWNIAN;
+float rad = 5;
+int numParts = 200;
 
 
 void setup() {
