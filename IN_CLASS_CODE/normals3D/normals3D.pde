@@ -7,8 +7,6 @@ void draw() {
 
   background(0);
 
-  
-
   background(0);
   translate(width/2,height/2,-100);
   
@@ -29,10 +27,20 @@ void draw() {
   PVector d = new PVector( 200, 200,-100);
   PVector e = new PVector(-200, 200,-100);
   
-   
+  beginShape();
+  doVertex(b);
+  doVertex(c);
+  doVertex(d);
+  doVertex(e);
+  endShape(CLOSE);
+  
+
   
 }
 
+void doVertex(PVector v) {
+  vertex(v.x,v.y,v.z);
+}
 void doVertex(PVector v, PVector n) {
   //normal(n.x,n.y,n.z);
   vertex(v.x,v.y,v.z);
