@@ -13,15 +13,16 @@ void draw() {
   translate(width/2,height/2,-100);
   
   PVector litPos = new PVector(map(mouseX,0,width,-width/2,width/2),
-                          map(mouseY,0,height,-height/2, height/2),200);
+                          map(mouseY,0,height,-height/2, height/2),0);
 
-  pointLight(255,255,255, litPos.x, litPos.y, litPos.z);
+  pointLight(0,128,0, litPos.x, litPos.y, litPos.z);
   stroke(255);
   strokeWeight(10);
   point(litPos.x, litPos.y, litPos.z);
                        
   noStroke();
-  ambientLight(100,0,0);
+  fill(0,255,0);
+  ambientLight(100,100,100);
   
   PVector n = new PVector(map(mouseX, 0,width, 1,100),
                           0, map(mouseY, 0,height, 1,100));
@@ -47,7 +48,7 @@ void draw() {
   PVector norm = PVector.sub(b,a);
   norm = norm.cross(PVector.sub(c,a));
   norm.normalize();
-  //normal(norm.x, norm.y, norm.z);
+  normal(norm.x, norm.y, norm.z);
   
   doVertex(a, anorm);
   doVertex(b, bnorm);
@@ -56,7 +57,7 @@ void draw() {
   norm = PVector.sub(c,a);
   norm = norm.cross(PVector.sub(d,a));
   norm.normalize();
-  //normal(norm.x, norm.y, norm.z);
+  normal(norm.x, norm.y, norm.z);
   
   doVertex(a, anorm);
   doVertex(c, cnorm);
@@ -65,7 +66,7 @@ void draw() {
   norm = PVector.sub(d,a);
   norm = norm.cross(PVector.sub(e,a));
   norm.normalize();
-  //normal(norm.x, norm.y, norm.z);
+  normal(norm.x, norm.y, norm.z);
   
   doVertex(a, anorm);
   doVertex(d, dnorm);
@@ -74,7 +75,7 @@ void draw() {
   norm = PVector.sub(e,a);
   norm = norm.cross(PVector.sub(b,a));
   norm.normalize();
-  //normal(norm.x, norm.y, norm.z);
+  normal(norm.x, norm.y, norm.z);
   
   doVertex(a, anorm);
   doVertex(e, enorm);
@@ -97,6 +98,6 @@ void draw() {
 }
 
 void doVertex(PVector v, PVector n) {
-  //normal(n.x,n.y,n.z);
+  normal(n.x,n.y,n.z);
   vertex(v.x,v.y,v.z);
 }

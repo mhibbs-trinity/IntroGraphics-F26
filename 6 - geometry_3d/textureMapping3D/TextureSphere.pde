@@ -11,30 +11,30 @@ class TextureSphere {
   
   void display() {
     beginShape(QUADS);
-    //texture(img);
+    texture(img);
     float uStep = 2*PI/nSegs;
     float vStep = PI/nSegs;
-    for(float u=0; u<2*PI; u+=uStep) {
+    for(float u=0; u<=2*PI; u+=uStep) {
       for(float v=-PI/2; v<PI/2; v+=vStep) {
       //for(float v=-200; v<200; v+=vStep) {  
-        
+        /*
         vertex(xpos(u,v), ypos(u,v), zpos(u,v));
         vertex(xpos(u+uStep,v),ypos(u+uStep,v),zpos(u+uStep,v));
         vertex(xpos(u+uStep,v+vStep),ypos(u+uStep,v+vStep),zpos(u+uStep,v+vStep));
         vertex(xpos(u,v+vStep),ypos(u,v+vStep),zpos(u,v+vStep));
-        
+        */
         /*
         vertex(xpos(u,v), ypos(u,v), zpos(u,v), map(u, 0,2*PI, img.width,0), map(v, -PI/2,PI/2, 0,img.height));
         vertex(xpos(u+uStep,v),ypos(u+uStep,v),zpos(u+uStep,v), map(u+uStep, 0,2*PI, img.width,0), map(v, -PI/2,PI/2, 0,img.height));
         vertex(xpos(u+uStep,v+vStep),ypos(u+uStep,v+vStep),zpos(u+uStep,v+vStep), map(u+uStep, 0,2*PI, img.width,0), map(v+vStep, -PI/2,PI/2, 0,img.height));
         vertex(xpos(u,v+vStep),ypos(u,v+vStep),zpos(u,v+vStep), map(u, 0,2*PI, img.width,0), map(v+vStep, -PI/2,PI/2, 0,img.height));
         */
-        /*
+        
         createVertex(u,v);
         createVertex(u+uStep,v);
         createVertex(u+uStep,v+vStep);
         createVertex(u,v+vStep);
-        */
+        
       }
     }
     endShape();
@@ -51,7 +51,8 @@ class TextureSphere {
     stroke(map(u,0,2*PI,0,255),map(v,-PI,PI,0,255),0);
     //line(0,0,0, -100*norm.x, -100*norm.y, -100*norm.z);
     noStroke();
-    vertex(x,y,z, map(u, 0,2*PI, img.width,0), map(v, -PI/2,PI/2, 0,img.height));
+     vertex(x,y,z, map(u, 0,2*PI, img.width,0), map(v, -PI/2,PI/2, 0,img.height));
+    //vertex(x,y,z);
   }
   
   float xpos(float u, float v) {

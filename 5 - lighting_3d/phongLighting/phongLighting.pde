@@ -45,6 +45,10 @@ void draw() {
     }
   }
   
+  shininess(10);
+  stroke(255);
+  strokeWeight(1);
+  
   if(mode == Mode.SINGLEQUAD) {
     beginShape(QUADS);
       vertex(100,100,0);

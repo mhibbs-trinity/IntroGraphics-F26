@@ -4,12 +4,13 @@ PImage img;
 
 void setup() {
   size(500,500,P3D);
-  img = loadImage("earth_lights_lrg.jpg");
+  //img = loadImage("earth.jpg");
+  //img = loadImage("earth_lights_lrg.jpg");
   //img = loadImage("glass copy.png");
-  //img = loadImage("jupiter.jpg");
+  img = loadImage("jupiter.jpg");
   //img = loadImage("gray.jpg");
   //img = loadImage("grid.png");
-  ts = new TextureSphere(180, 10, img);
+  ts = new TextureSphere(180, 80, img);
 }
 
 void draw() {
@@ -20,7 +21,7 @@ void draw() {
   strokeWeight(10);
   stroke(255);
   point(mouseX,mouseY,200);
-  ambientLight(150,150,150);
+  ambientLight(50,50,50);
   
   noStroke();
   fill(255);
