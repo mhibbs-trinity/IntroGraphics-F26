@@ -28,7 +28,7 @@ void setup() {
 void draw() {
   //popMatrix();
   background(0);
-  ambientLight(20,20,20);
+  ambientLight(120,120,120);
   
   
   strokeWeight(10);
@@ -92,16 +92,16 @@ void draw() {
   if(keyPressed && key == 'w') textureWrap(REPEAT);
   else textureWrap(CLAMP);
   
-  //is.display(img);
+  is.display(img);
   //noFill();
   //is.display();
   
   //popMatrix();
 
-  if(mousePressed) {
-    if(mouseButton == LEFT) rotateY(float(mouseX-pmouseX)/width);
-    if(mouseButton == RIGHT) rotateX(float(mouseY-pmouseY)/height);
-  }
+  //if(mousePressed) {
+  //  if(mouseButton == LEFT) rotateY(float(mouseX-pmouseX)/width);
+  //  if(mouseButton == RIGHT) rotateX(float(mouseY-pmouseY)/height);
+  //}
 
   //pushMatrix();
 }
