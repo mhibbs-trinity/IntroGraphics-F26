@@ -16,6 +16,8 @@ enum Mode {
 
 Mode MODE = Mode.MODE_SIMPLE;
 int FUNC = 0;
+int BASEMODE = 0;
+int PLOTMODE = 0;
 
 void setup() {
   size(600,600,P3D);
@@ -28,6 +30,8 @@ void draw() {
   shader(shade);
   
   shade.set("mode", int(FUNC));
+  shade.set("baseMode", int(BASEMODE));
+  shade.set("plotMode", int(PLOTMODE));
   shade.set("u_resolution", float(width), float(height));
   shade.set("u_mouse", float(mouseX), float(mouseY));
   shade.set("u_time", millis() / 1000f);
@@ -56,15 +60,16 @@ void mouseDragged() {
 }
 
 void keyPressed() {
-  if(key == '0') FUNC = 0;
-  if(key == '1') FUNC = 1;
-  if(key == '2') FUNC = 2;
-  if(key == '3') FUNC = 3;
-  if(key == '4') FUNC = 4;
-  if(key == '5') FUNC = 5;
-  if(key == '6') FUNC = 6;
-  if(key == '7') FUNC = 7;
-  if(key == '8') FUNC = 8;
+  if(key == '0') { FUNC = 0; BASEMODE = 0; PLOTMODE = 0; }
+  if(key == '1') { FUNC = 1; BASEMODE = 1; }
+  if(key == '2') { FUNC = 2; BASEMODE = 2; }
+  if(key == '3') { FUNC = 3; BASEMODE = 3; }
+  if(key == '4') { FUNC = 4; PLOTMODE = 1; }
+  if(key == '5') { FUNC = 5; PLOTMODE = 2; }
+  if(key == '6') { FUNC = 6; PLOTMODE = 3; }
+  if(key == '7') { FUNC = 7; PLOTMODE = 4; }
+  if(key == '8') { FUNC = 8; PLOTMODE = 5; }
+  if(key == '9') { PLOTMODE = 6; }
 
   if(key == 'S' || key == 's') {
     MODE = Mode.MODE_SIMPLE;

@@ -10,6 +10,14 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
+uniform int baseMode;
+uniform int plotMode;
+
+vec3 gradient(vec2 st) {
+  float x = st.x;
+  return vec3(x);
+}
+
 vec3 threshhold(vec2 st, float limit) {
   float t = step(limit, st.x);
   return vec3(t);
@@ -18,12 +26,6 @@ vec3 threshhold(vec2 st, float limit) {
 vec3 smoothThreshold(vec2 st, float limit) {
   float t = smoothstep(limit-0.25, limit+0.25, st.x);
   return vec3(t);
-}
-
-
-vec3 gradient(vec2 st) {
-  float x = st.x;
-  return vec3(x);
 }
 
 float line(vec2 st) {
@@ -64,17 +66,25 @@ float smoothBox(vec2 st, vec2 center, vec2 size) {
 
 void main() { 
   vec3 baseColor = vec3(0.0);
-  //baseColor = gradient(vertTexCoord);
-  //baseColor = threshhold(vertTexCoord, 0.5);
-  baseColor = smoothThreshold(vertTexCoord, 0.5);
+  if(baseMode == 0) { baseColor = vec3(0.0); }
+  if(baseMode == 1) { baseColor = gradient(vertTexCoord); } 
+  if(baseMode == 2) { baseColor = threshhold(vertTexCoord, 0.5); }
+  if(baseMode == 3) { baseColor = smoothThreshold(vertTexCoord, 0.5); }
 
   float plot = 0.0;
-  plot = smoothLine(vertTexCoord);
-  //plot = smoothCircle(vertTexCoord, vec2(0.5), 0.3);
-  //plot = box(vertTexCoord, vec2(0.5), vec2(0.3,0.3));
-  vec3 color = (1.0-plot) * baseColor +
-                plot * vec3(1.0,0.0,0.0);
+  if(plotMode == 0) { plot = 0.0; }
+  if(plotMode == 1) { plot = line(vertTexCoord); }
+  if(plotMode == 2) { plot = circle(vertTexCoord, vec2(0.5), 0.3); }
+  if(plotMode == 3) { plot = box(vertTexCoord, vec2(0.5), vec2(0.3,0.3)); }
+  if(plotMode == 4) { plot = smoothLine(vertTexCoord); }
+  if(plotMode == 5) { plot = smoothCircle(vertTexCoord, vec2(0.5), 0.3); }
+  if(plotMode == 6) { plot = smoothBox(vertTexCoord, vec2(0.5), vec2(0.3,0.3)); }
 
-  color = mix(vec3(0.8,0.0,0.4), vec3(0.0,0.4,0.8), plot);
+  
+  //plot = 0.05 / plot;
+  vec3 color = (1.0-plot) * baseColor + plot * vec3(1.0,0.0,0.0);
+  //color = 0.05 / color;
+
+  //color = mix(vec3(0.8,0.0,0.4), vec3(0.0,0.4,0.8), plot);
   gl_FragColor = vec4(color,1.0);
 }
