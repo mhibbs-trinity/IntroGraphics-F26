@@ -1,13 +1,15 @@
 #define PROCESSING_TEXTURE_SHADER
+
 uniform mat4 transform;
 uniform mat4 texMatrix;
+
 attribute vec4 vertex;
 attribute vec2 texCoord;
-varying vec4 vertTexCoord;
+
+varying vec2 uv;
+
 void main() {
   gl_Position = transform * vertex;
-  vertTexCoord = texMatrix * vec4(texCoord, 1,1);
+  uv = (texMatrix * vec4(texCoord, 1.0, 1.0)).xy; //UV coords in (0,1) range
 }
-
-
 
