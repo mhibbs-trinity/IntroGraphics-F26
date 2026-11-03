@@ -2,6 +2,7 @@
 
 varying vec2 uv;
 
+uniform sampler2D texture;
 uniform float time;
 uniform float mouseX;
 uniform float mouseY;
@@ -15,21 +16,21 @@ vec4 palette1( float t ) {
     vec3 d = vec3(0.263,0.416,0.557);
     return vec4(a + b*cos( 6.28318*(c*t+d) ), 1.0);
 }
-
+/*
 vec4 palette2( float t ) {
     vec3 a = vec3(-0.012,0.500,0.500);
     vec3 b = vec3(-0.582,-0.392,-0.702);
     vec3 c = vec3(0.658,1.000,1.000);
     vec3 d = vec3(0.087, 0.677, 0.497);
     return vec4(a + b*cos( 6.28318*(c*t+d) ), 1.0);
-}
+}*/
 
 vec4 colorByTexCoord() { // 0
   return vec4(uv, 0.0, 1.0);
 }
 
 vec4 colorByFractTexCoord() { // 1
-  return vec4(fract(uv * 4), 0.0, 1.0);
+  return vec4(texture2D(texture, fract(uv * 4)));
 }
 
 vec4 colorByDistanceFromOrigin() { // 2
@@ -76,7 +77,7 @@ vec4 colorWithNeon() { // 7
   float d = distance(fract(uv * 4), vec2(0.5, 0.5));
   d = abs(sin(d * 10 + time));
   d = 0.05 / d;
-  return vec4(d, d, d, 1.0) * palette1(od)g;
+  return vec4(d, d, d, 1.0) * palette1(od);
 }
 
 vec4 colorWithNeonSpread() { // 8
