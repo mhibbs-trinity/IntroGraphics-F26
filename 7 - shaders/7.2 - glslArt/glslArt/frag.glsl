@@ -76,7 +76,7 @@ vec4 colorWithNeon() { // 7
   float d = distance(fract(uv * 4), vec2(0.5, 0.5));
   d = abs(sin(d * 10 + time));
   d = 0.05 / d;
-  return vec4(d, d, d, 1.0) * palette1(od);
+  return vec4(d, d, d, 1.0) * palette1(od)g;
 }
 
 vec4 colorWithNeonSpread() { // 8
