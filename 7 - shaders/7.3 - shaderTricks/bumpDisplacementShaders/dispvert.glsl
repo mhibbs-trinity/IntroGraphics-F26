@@ -31,12 +31,11 @@ void main() {
                     0.0, 0.0, 1.0, -ht,
                     0.0, 0.0, 0.0, 1.0);
   */
-  vec4 offVert = vertex + vec4(normal*ht,1.0);
+  vec4 offVert = vertex + vec4(normal*ht, 0.0);
 
   gl_Position = transform * offVert;
   vec3 ecVertex = vec3(modelview * offVert);  
   normMat = normalMatrix;
-
   lightDir = normalize(lightPosition.xyz - ecVertex);
   vertColor = color;
 }

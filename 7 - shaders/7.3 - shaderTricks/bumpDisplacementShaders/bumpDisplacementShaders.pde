@@ -1,11 +1,17 @@
 
-PShader bumpy;
+PShader shader;
 PImage colTex;
 PImage htTex;
 PImage normTex;
 float rot;
 
-int mode = 1; //Set to 1 for displacement mapping; to 0 for bump mapping
+int mode = 0; //Set to 1 for displacement mapping; to 0 for bump mapping
+void keyPressed() {
+  if(key == '0') mode = 0; //bump map (normal mapping)
+  if(key == '1') mode = 1; //displacement map
+  if(key == '2') mode = 2; //dynamic "function" map
+  updateShader();
+}
 
 void setup() {
   size(500,500, P3D);
@@ -14,15 +20,15 @@ void setup() {
   //colTex = loadImage("gray.png");
   htTex = loadImage("pebble_height.png");
   normTex = loadImage("pebble_normal.png");
-
+  updateShader();
+}
+void updateShader() {
   if(mode == 0) {
-    bumpy = loadShader("bumpfrag.glsl", "bumpvert.glsl");
-    bumpy.set("normmap", normTex);
-  }
-  else if(mode == 1) { 
-    bumpy = loadShader("dispfrag.glsl", "dispvert.glsl");
-    bumpy.set("htmap", htTex);
-    bumpy.set("normmap", normTex);
+    shader = loadShader("bumpfrag.glsl", "bumpvert.glsl");
+  } else if(mode == 1) { 
+    shader = loadShader("dispfrag.glsl", "dispvert.glsl");
+  } else if(mode == 2) {
+    shader = loadShader("dispfuncfrag.glsl", "dispfuncvert.glsl");
   }
 }
 
@@ -40,11 +46,14 @@ void draw() {
   
   noStroke();
   fill(255);
-  shader(bumpy);
+  shader(shader);
+  shader.set("scale", map(mouseY, 0,height, 0.0,100.0));
+  shader.set("freq", map(mouseX, 0,width, 100.0,800.0));
+  shader.set("time", millis() / 1000.0);
+  shader.set("normmap", normTex);
+  shader.set("htmap", htTex);
   
-  if(mode == 1) {
-    bumpy.set("scale", float(mouseY)/height * 100.0);
-  
+  if(mode == 1 || mode == 2) {
     float lo = 50.0;
     float hi = 450.0;
     float diff = hi-lo;
@@ -66,7 +75,7 @@ void draw() {
   else if(mode == 0) {
     beginShape(QUAD);
     texture(colTex);
-    //normal(0,0,1);
+    normal(0,0,1);
     vertex( 50, 50,0,    0,   0);
     vertex( 50,450,0,    0,1024);
     vertex(450,450,0, 1024,1024);
