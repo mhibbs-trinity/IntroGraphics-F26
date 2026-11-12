@@ -13,7 +13,7 @@ BeatDetect beat;
 
 float eRadius;
 
-
+/*
 void setup()
 {
   size(200, 200, P3D);
@@ -51,8 +51,9 @@ void draw()
   eRadius *= 0.95;
   if ( eRadius < 20 ) eRadius = 20;
 }
+/*/
 
-/*
+//*
 void setup() {
   size(1024,400);
   minim = new Minim(this);
@@ -86,7 +87,8 @@ void draw() {
     //     i+1, map(song.mix.get(i+1), -1,1, height,0));
   }
 }
-*/
+//*/
+
 void stop() {
   song.close();
   minim.stop();
