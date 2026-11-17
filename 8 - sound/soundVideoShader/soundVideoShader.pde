@@ -15,7 +15,7 @@ import ddf.minim.analysis.*;
 import processing.video.*;
 
 // ---------- settings ----------
-boolean USE_MIC = false;     // true = react to the microphone (live music in the room) instead of a file
+boolean USE_MIC = true;     // true = react to the microphone (live music in the room) instead of a file
 boolean MIRROR  = true;      // mirror the webcam like a selfie view
 
 // ---------- audio ----------

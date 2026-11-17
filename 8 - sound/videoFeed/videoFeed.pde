@@ -1,7 +1,7 @@
 
 
 
-//*
+/*
 import processing.video.*;
 // Size of each cell in the grid
 int videoScale = 15;
@@ -46,10 +46,10 @@ void draw() {
   }
   
 }
-//*/
+*/
 
 
-/* Rect/Ellipse for video //
+//* Rect/Ellipse for video //
 
 import processing.video.*;
 // Size of each cell in the grid
@@ -168,4 +168,4 @@ void draw() {
     image(video,0,0);
   }
 }
-/*/
+*/

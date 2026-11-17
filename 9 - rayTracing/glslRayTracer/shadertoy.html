@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live GLSL Shader Editor</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter font and some custom styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Consolas', 'Monaco', 'Lucida Console', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for the editor and canvas */
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #app-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* Stack vertically on mobile */
+        }
+        
+        /* Desktop: Split view */
+        @media (min-width: 768px) {
+            #app-container {
+                flex-direction: row; /* Split horizontally on desktop */
+            }
+            .panel {
+                width: 50%;
+                height: 100%;
+            }
+            #editor-panel {
+                border-right: 2px solid #374151;
+            }
+        }
+
+        #editor-panel {
+            background-color: #1f2937; /* Dark background */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .shader-editor {
+            flex-grow: 1;
+            min-height: 25vh; /* Ensure size on mobile */
+            font-size: 14px;
+            tab-size: 4;
+            caret-color: #6366f1; /* Indigo cursor */
+            padding: 1rem;
+            border: none;
+            outline: none;
+            background-color: #1f2937;
+            color: #d1d5db; /* Light gray text */
+            font-family: 'Consolas', monospace;
+        }
+
+        #canvas-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #111827; /* Even darker background for canvas area */
+            position: relative;
+            min-height: 25vh; /* Ensure size on mobile */
+            flex-grow: 1;
+        }
+
+        #gl-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .error-log {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(185, 28, 28, 0.9); /* Red error background */
+            color: #fee2e2;
+            padding: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            z-index: 10;
+            max-height: 100%;
+            overflow-y: auto;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <!-- Left Panel: Editor -->
+        <div id="editor-panel" class="panel">
+            <div class="p-4 bg-gray-900 shadow-lg flex justify-between items-center">
+                <h1 class="text-xl font-bold text-indigo-400">Live GLSL Editor</h1>
+                <span id="shader-status" class="text-sm font-medium rounded-full px-3 py-1 bg-green-600 text-white">READY</span>
+            </div>
+            <textarea id="shader-editor" class="shader-editor"></textarea>
+        </div>
+
+        <!-- Right Panel: Canvas Preview -->
+        <div id="canvas-panel" class="panel">
+            <canvas id="gl-canvas"></canvas>
+            <div id="error-log" class="error-log hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Global WebGL State and Configuration ---
+        let gl;
+        let shaderProgram = null;
+        let uTime = null;
+        let uResolution = null;
+        let startTime = performance.now();
+
+        // DOM elements
+        let canvas, editor, errorLog, statusSpan;
+
+        // --- Core Shaders (Standard) ---
+        const vertexShaderSource = `
+            attribute vec4 a_position;
+            void main() {
+                gl_Position = a_position;
+            }
+        `;
+
+        // Default shader (Moving Gradient)
+        const initialFragmentShaderSource = `
+            precision highp float;
+            uniform vec3 iResolution;
+            uniform float iTime;
+
+            void main() {
+                // Normalized UV coordinates
+                vec2 uv = gl_FragCoord.xy / iResolution.xy;
+                
+                // Animate color over time
+                float r = uv.x + sin(iTime * 1.5) * 0.2;
+                float g = uv.y + cos(iTime * 1.0) * 0.2;
+                float b = sin(uv.x * uv.y * 10.0 + iTime * 2.0) * 0.5 + 0.5;
+                
+                vec3 final_color = vec3(r, g, b);
+                
+                gl_FragColor = vec4(final_color, 1.0);
+            }
+        `;
+
+        // --- Core WebGL Functions ---
+
+        /** Initializes the shared WebGL context and buffers */
+        function initWebGL() {
+            canvas = document.getElementById('gl-canvas');
+            editor = document.getElementById('shader-editor');
+            errorLog = document.getElementById('error-log');
+            statusSpan = document.getElementById('shader-status');
+            
+            // Use { alpha: false } to optimize rendering
+            gl = canvas.getContext('webgl', { alpha: false });
+            
+            if (!gl) {
+                console.error('WebGL not supported. Try using a different browser.');
+                document.getElementById('app-container').innerHTML = '<p class="text-red-400 p-4">WebGL is not supported on this browser.</p>';
+                return false;
+            }
+
+            // Set up a full-screen quad (two triangles that cover the entire viewport)
+            const positions = new Float32Array([
+                -1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+                -1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+            ]);
+
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+            return true;
+        }
+
+        function compileShader(type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                const info = gl.getShaderInfoLog(shader);
+                gl.deleteShader(shader);
+                return { error: info };
+            }
+            return { shader: shader };
+        }
+
+        function createProgram(vSource, fSource) {
+            const vResult = compileShader(gl.VERTEX_SHADER, vSource);
+            if (vResult.error) return { error: `Vertex Shader Error:\n${vResult.error}` };
+
+            const fResult = compileShader(gl.FRAGMENT_SHADER, fSource);
+            if (fResult.error) return { error: `Fragment Shader Error:\n${fResult.error}` };
+
+            const p = gl.createProgram();
+            gl.attachShader(p, vResult.shader);
+            gl.attachShader(p, fResult.shader);
+            gl.linkProgram(p);
+
+            if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+                const info = gl.getProgramInfoLog(p);
+                gl.deleteProgram(p);
+                return { error: `Linker Error:\n${info}` };
+            }
+
+            return { program: p };
+        }
+
+        /** Sets up the single WebGL program */
+        function setupProgram(fragSource) {
+            const result = createProgram(vertexShaderSource, fragSource);
+
+            if (result.error) {
+                // Handle compilation error
+                showError(result.error);
+                updateStatus('ERROR', 'bg-red-600');
+                return false;
+            } else {
+                // Success
+                if (shaderProgram) gl.deleteProgram(shaderProgram);
+                shaderProgram = result.program;
+                gl.useProgram(shaderProgram);
+
+                // Look up uniform locations
+                uTime = gl.getUniformLocation(shaderProgram, 'iTime');
+                uResolution = gl.getUniformLocation(shaderProgram, 'iResolution');
+
+                // Look up attribute location
+                const positionAttributeLocation = gl.getAttribLocation(shaderProgram, 'a_position');
+                gl.enableVertexAttribArray(positionAttributeLocation);
+                gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+                hideError();
+                updateStatus('SUCCESS', 'bg-green-600');
+                return true;
+            }
+        }
+
+        /** Matches the canvas resolution to its display size in the DOM */
+        function resizeCanvasToDisplaySize() {
+            const displayWidth = canvas.clientWidth;
+            const displayHeight = canvas.clientHeight;
+
+            const needResize = canvas.width !== displayWidth || canvas.height !== displayHeight;
+            if (needResize) {
+                canvas.width = displayWidth;
+                canvas.height = displayHeight;
+                gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+            }
+            return needResize;
+        }
+
+        /** The main render loop */
+        function render(timestamp) {
+            const elapsed = (timestamp - startTime) / 1000.0; // Time in seconds
+
+            if (shaderProgram) {
+                resizeCanvasToDisplaySize();
+                
+                // Set the WebGL viewport to cover the entire canvas element
+                gl.viewport(0, 0, canvas.width, canvas.height);
+
+                // Clear the drawing buffer
+                gl.clearColor(0.12, 0.16, 0.2, 1.0); 
+                gl.clear(gl.COLOR_BUFFER_BIT); 
+
+                // Use the program and set uniforms
+                gl.useProgram(shaderProgram);
+                gl.uniform1f(uTime, elapsed);
+                gl.uniform3f(uResolution, canvas.width, canvas.height, 1.0);
+
+                // Draw the quad
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        // --- UI/Error Handling ---
+
+        function updateStatus(text, colorClass) {
+            statusSpan.textContent = text;
+            statusSpan.className = `status-span text-sm font-medium rounded-full px-3 py-1 text-white ${colorClass}`;
+        }
+
+        function showError(message) {
+            errorLog.textContent = message;
+            errorLog.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorLog.classList.add('hidden');
+        }
+
+        // --- Initialization and Event Listeners ---
+
+        function initApp() {
+            if (!initWebGL()) return; // Stop if WebGL fails
+
+            // Set initial code and compile
+            editor.value = initialFragmentShaderSource.trim();
+            setupProgram(editor.value);
+
+            // Live compilation on input
+            editor.addEventListener('input', () => {
+                // Debounce input to prevent constant recompilation
+                clearTimeout(editor.debounceTimer);
+                editor.debounceTimer = setTimeout(() => {
+                    setupProgram(editor.value);
+                }, 150);
+            });
+            
+            // Start the render loop
+            requestAnimationFrame(render);
+        }
+
+        // Start everything when the DOM is ready
+        window.addEventListener('load', initApp);
+
+        // Handle window resize
+        window.addEventListener('resize', resizeCanvasToDisplaySize);
+
+    </script>
+</body>
+</html>

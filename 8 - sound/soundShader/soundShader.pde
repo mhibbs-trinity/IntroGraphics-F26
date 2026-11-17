@@ -29,9 +29,9 @@ void setup() {
   //song = minim.loadFile("jane.mp3", numSamp);
   //song = minim.loadFile("felt.mp3", numSamp);
   //song = minim.loadFile("lastofus.mp3", numSamp);
-  song = minim.loadFile("16Hz-20kHz-Exp-1f-10sec.mp3", numSamp);
+  //song = minim.loadFile("16Hz-20kHz-Exp-1f-10sec.mp3", numSamp);
   //song = minim.loadFile("derezzed.mp3", numSamp);
-  //song = minim.loadFile("pillow.mp3", numSamp);
+  song = minim.loadFile("pillow.mp3", numSamp);
   //song = minim.loadFile("taphaniang.mp3", numSamp);
   AudioMetaData meta = song.getMetaData();
   label = meta.title() + " (" + meta.author() + ")"; 

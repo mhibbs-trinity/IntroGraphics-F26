@@ -13,14 +13,14 @@ BeatDetect beat;
 
 float eRadius;
 
-/*
+
 void setup()
 {
   size(200, 200, P3D);
   minim = new Minim(this);
   //song = minim.loadFile("derezzed.mp3", 1024);
-  //song = minim.loadFile("fall.mp3", 1024);
-  song = minim.loadFile("taphaniang.mp3", 1024);
+  song = minim.loadFile("fall.mp3", 1024);
+  //song = minim.loadFile("taphaniang.mp3", 1024);
   song.play();
   
   // a beat detection object song SOUND_ENERGY mode
@@ -43,17 +43,17 @@ void draw()
   //if ( beat.isOnset() ) eRadius = 80;
   
   //FREQ_ENERGY mode
-  //if( beat.isKick() ) eRadius = 80;
+  if( beat.isKick() ) eRadius = 80;
   //if( beat.isSnare() ) eRadius = 80;
-  if( beat.isHat() ) eRadius = 80;
+  //if( beat.isHat() ) eRadius = 80;
   
   ellipse(width/2, height/2, eRadius, eRadius);
   eRadius *= 0.95;
   if ( eRadius < 20 ) eRadius = 20;
 }
-/*/
+//
 
-//*
+/*
 void setup() {
   size(1024,400);
   minim = new Minim(this);
@@ -87,7 +87,7 @@ void draw() {
     //     i+1, map(song.mix.get(i+1), -1,1, height,0));
   }
 }
-//*/
+*/
 
 void stop() {
   song.close();
